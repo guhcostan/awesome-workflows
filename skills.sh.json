@@ -1,0 +1,12 @@
+{
+  "$schema": "https://skills.sh/schemas/skills.sh.schema.json",
+  "groupings": [
+    {
+      "title": "Workflow Orchestration",
+      "description": "Skills for writing correct, cost-efficient multi-agent workflows with the Workflow tool.",
+      "skills": [
+        "awesome-workflows"
+      ]
+    }
+  ]
+}
