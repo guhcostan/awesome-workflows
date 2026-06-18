@@ -1,13 +1,16 @@
 ---
 name: awesome-workflows
 description: >
-  Master guide for writing high-quality Claude Code Workflow scripts. Use this skill
-  BEFORE writing any Workflow script, and whenever you need to decide between pipeline()
-  vs parallel(), choose model tiers, structure phases, avoid save-agent anti-patterns,
-  or debug a workflow that's burning too many tokens. Also triggers on: "write a workflow",
-  "run agents in parallel", "fan-out agents", "orchestrate subagents", "multi-agent pipeline",
-  "workflow for X", "how do I use the Workflow tool", or when the task clearly needs
-  more than 3 independent agent calls to complete.
+  ALWAYS read this skill before writing any Workflow tool script, before calling the
+  Workflow() tool, or before spawning more than 3 agents. Covers the critical patterns
+  that prevent wasted tokens and wrong model choices: pipeline() vs parallel(), Haiku
+  for fan-out agents, never use agents just to write files (return results instead),
+  schema output, phase organization, and resume. Triggers on: writing a workflow script,
+  Workflow({ script: ... }), pipeline(), parallel(), agent() in a loop, "run in parallel",
+  "fan-out", "orchestrate subagents", "multi-agent", "haiku for agents",
+  "how do I save results from a workflow", "workflow burning tokens", "too many agents",
+  "model for subagents". If you are about to write a workflow script or call Workflow()
+  — stop and read this first.
 compatibility: Claude Code with Workflow tool access
 license: MIT
 metadata:
