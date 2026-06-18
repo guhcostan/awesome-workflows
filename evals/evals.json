@@ -1,0 +1,74 @@
+{
+  "skill_name": "awesome-workflows",
+  "evals": [
+    {
+      "id": 0,
+      "prompt": "write me a workflow that goes through every .js file in my src/ folder, adds JSDoc comments to any function that's missing one, and saves the updated files back to disk",
+      "expected_output": "Uses pipeline() over files, Haiku for per-file processing (N will be > 3), returns updated file contents as a result object for the caller to write with Write tool — does NOT spawn save agents. No Date.now() usage.",
+      "assertions": [
+        {
+          "name": "no-save-agents",
+          "description": "Does not spawn agents whose only job is writing files — returns file contents for the caller to write"
+        },
+        {
+          "name": "haiku-for-per-file-processing",
+          "description": "Uses model: 'haiku' for the per-file JSDoc agents (fan-out, N > 3)"
+        },
+        {
+          "name": "pipeline-not-parallel",
+          "description": "Uses pipeline() for the file processing loop, not a flat parallel() barrier"
+        },
+        {
+          "name": "no-date-now",
+          "description": "Does not call Date.now() or new Date() — these break workflow resume"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "prompt": "I need to audit 25 of our GitHub repos to find which ones are missing a CODEOWNERS file, a CHANGELOG.md, and have any open critical issues. Give me a summary table at the end.",
+      "expected_output": "Uses pipeline() for per-repo checks (no unnecessary parallel() barrier between stages), Haiku for the per-repo scanning agents, schema on structured output so results are typed objects not raw text, Sonnet only for the final table synthesis.",
+      "assertions": [
+        {
+          "name": "haiku-for-repo-scanning",
+          "description": "Uses model: 'haiku' for per-repo check agents (N=25)"
+        },
+        {
+          "name": "schema-on-structured-output",
+          "description": "Uses schema option on agents that return structured repo data (missing files, issue counts)"
+        },
+        {
+          "name": "pipeline-default",
+          "description": "Uses pipeline() for the 25-repo scan, not parallel() as the default for every stage"
+        },
+        {
+          "name": "sonnet-for-synthesis-only",
+          "description": "Default (Sonnet) model reserved for the final summary/table agent, not per-repo scanning"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "build a workflow that processes our application logs from the past week and creates a daily breakdown of error rates — I want to see how errors trend day by day",
+      "expected_output": "Does NOT use Date.now() or new Date() to compute date ranges (breaks resume) — accepts date range as args or asks agent to determine it. Uses schema on agents that return structured daily stats. Uses pipeline() or parallel() correctly. Uses Haiku for per-day/per-file processing.",
+      "assertions": [
+        {
+          "name": "no-date-now-or-new-date",
+          "description": "Does not call Date.now() or new Date() directly in the script body — these are banned in Workflow scripts as they break resume"
+        },
+        {
+          "name": "schema-on-daily-stats",
+          "description": "Uses schema option on agents that return daily error statistics (structured, not raw text)"
+        },
+        {
+          "name": "haiku-for-per-day-processing",
+          "description": "Uses model: 'haiku' for per-day or per-file log processing agents"
+        },
+        {
+          "name": "no-save-agents",
+          "description": "Returns report data for the caller to write — does not spawn agents just to write the output file"
+        }
+      ]
+    }
+  ]
+}
